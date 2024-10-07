@@ -5,7 +5,7 @@ import datetime
 from PIL import Image
 from streamlit_option_menu import option_menu
 
-data=pd.read_csv("G:\\SK\\Ds\\AirBnb\\AirBnb.csv")
+data=pd.read_csv("S:/DS/projects/Airbnb_analysis/AirBnb.csv")
 df=data.copy()
 
 
@@ -32,7 +32,7 @@ if select == "Home":
                 are cheaper and homier than hotels.***''')
         st.write("")
     with col2:
-        img = Image.open("G:\\SK\\Ds\\AirBnb\\Airbnb 1.jpeg")
+        img = Image.open("S:/DS/projects/Airbnb_analysis/images/image_1.jpeg")
         st.image(img,width=260)
 
     st.write('''***Airbnb Inc (Airbnb) operates an online platform for hospitality services.
@@ -274,24 +274,36 @@ elif select == "Analysis":
                 st.write("Shared room :"+" $ "+room_type_price[0])
                        
         with c2:
-            df_country = df_insight.groupby('country')['price'].sum().reset_index().sort_values(by='price',ascending=False)
+            df_country = df_insight.groupby('country')['price'].sum().reset_index().sort_values(by='price', ascending=False)
 
-            fig_polar = px.bar_polar(df_country,r='price',theta='country',
-                                    color_discrete_sequence=px.colors.sequential.haline,
-                                    width=400,
-                                    title='Price Distribution by Country')
-            fig_polar.update_layout(polar=dict(bgcolor='grey'))
-            st.plotly_chart(fig_polar)
+            fig_donut = px.pie(df_country,
+                            values='price',
+                            names='country',
+                            color_discrete_sequence=px.colors.sequential.haline,
+                            width=400,
+                            title='Price Distribution by Country',
+                            hole=0.4) 
+            
+            # Update the layout for background color
+            #fig_donut.update_layout(plot_bgcolor='grey', paper_bgcolor='grey')
+
+            # Display the chart in Streamlit
+            st.plotly_chart(fig_donut)
 
         with c3:
-            df_country = df_insight.groupby('country')['host_total_listings_count'].sum().reset_index().sort_values(by='host_total_listings_count',ascending=False)
+            df_country = df_insight.groupby('country')['host_total_listings_count'].sum().reset_index().sort_values(by='host_total_listings_count', ascending=False)
 
-            fig_polar = px.bar_polar(df_country,r='host_total_listings_count',theta='country',
-                                    color_discrete_sequence=px.colors.sequential.haline,
-                                    width=400,
-                                    title='Listings Distribution by Country')
-            fig_polar.update_layout(polar=dict(bgcolor='grey'))
-            st.plotly_chart(fig_polar)
+            fig_donut = px.pie(df_country,
+                            values='host_total_listings_count',
+                            names='country',
+                            color_discrete_sequence=px.colors.sequential.haline,
+                            width=400,
+                            title='Listings Distribution by Country',
+                            hole=0.4)  
+
+            #fig_donut.update_layout(plot_bgcolor='grey', paper_bgcolor='grey')
+            st.plotly_chart(fig_donut)
+
         c4,c5=st.columns(2)
 
         with c4:
