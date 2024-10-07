@@ -5,7 +5,7 @@ import datetime
 from PIL import Image
 from streamlit_option_menu import option_menu
 
-data=pd.read_csv("S:/DS/projects/Airbnb_analysis/AirBnb.csv")
+data=pd.read_csv("dataset.csv")
 df=data.copy()
 
 
